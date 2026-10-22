@@ -1,0 +1,9 @@
+# layout: color
+format = """
+[$os$username](bold fg:color_orange)\
+[$directory](bold fg:color_yellow)\
+[$git_branch$git_status](fg:color_aqua)\
+[$c$cpp$rust$golang$nodejs$bun$php$java$kotlin$haskell$python](fg:color_blue)\
+[$docker_context$conda$pixi](fg:color_text)\
+[$time](fg:color_text)\
+$line_break[$character](fg:color_green)"""

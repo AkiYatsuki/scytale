@@ -1,0 +1,258 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# 当前配色：由 ~/.zsh/starship-palette.zsh 自动维护（macOS 深浅色 / starship-theme 手动指定）
+# 注意：palette 必须写在所有 [table] 之前，否则会被 TOML 归到上一个表里
+palette = "everforest_dark"
+
+# 当前布局：由 ~/.zsh/starship-palette.zsh 自动维护（starship-layout 切换）
+# powerline / color / plain，三份 format 存在 ~/.zsh/themes/starship-formats/
+# layout: color
+format = """
+[$os$username](bold fg:color_orange)\
+[$directory](bold fg:color_yellow)\
+[$git_branch$git_status](fg:color_aqua)\
+[$c$cpp$rust$golang$nodejs$bun$php$java$kotlin$haskell$python](fg:color_blue)\
+[$docker_context$conda$pixi](fg:color_text)\
+[$time](fg:color_text)\
+$line_break[$character](fg:color_green)"""
+
+# 语义 token（所有 palette 都必须提供这 11 个键）：
+#   color_fg0   强调色块上的文字（需与所有强调色高对比）
+#   color_text  普通文字（time / docker 等浅底块）
+#   color_bg1   最外层 time 块的底色
+#   color_bg3   docker / conda / pixi 块的底色
+#   color_{blue,aqua,green,orange,purple,red,yellow}  各功能块强调色
+#
+# 注意：模块自身不再设置 style/bg，颜色统一由上面的 format 负责，
+# 这样切换布局（powerline / color / plain）只需要换 format 一处。
+
+[os]
+disabled = false
+format = ' $symbol '
+
+[os.symbols]
+Windows = "󰍲"
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = "󰀵"
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+AOSC = ""
+Arch = "󰣇"
+Artix = "󰣇"
+EndeavourOS = ""
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+Pop = ""
+
+[username]
+show_always = true
+format = ' $user '
+
+[directory]
+format = ' $path '
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"Developer" = "󰲋 "
+
+[git_branch]
+symbol = ""
+format = ' $symbol $branch '
+
+[git_status]
+format = '($all_status$ahead_behind )'
+
+[nodejs]
+symbol = ""
+format = ' $symbol( $version) '
+
+[bun]
+symbol = ""
+format = ' $symbol( $version) '
+
+[c]
+symbol = " "
+format = ' $symbol( $version) '
+
+[cpp]
+symbol = " "
+format = ' $symbol( $version) '
+
+[rust]
+symbol = ""
+format = ' $symbol( $version) '
+
+[golang]
+symbol = ""
+format = ' $symbol( $version) '
+
+[php]
+symbol = " "
+format = ' $symbol( $version) '
+
+[java]
+symbol = " "
+format = ' $symbol( $version) '
+
+[kotlin]
+symbol = ""
+format = ' $symbol( $version) '
+
+[haskell]
+symbol = ""
+format = ' $symbol( $version) '
+
+[python]
+symbol = ""
+format = ' $symbol( $version) '
+
+[docker_context]
+symbol = ""
+format = ' $symbol( $context) '
+
+[conda]
+format = ' $symbol( $environment) '
+
+[pixi]
+format = ' $symbol( $version)( $environment) '
+
+[time]
+disabled = false
+time_format = "%R"
+format = ' $time '
+
+[line_break]
+disabled = false
+
+[character]
+disabled = false
+success_symbol = '[](bold)'
+error_symbol = '[](bold fg:color_red)'
+vimcmd_symbol = '[](bold)'
+vimcmd_replace_one_symbol = '[](bold)'
+vimcmd_replace_symbol = '[](bold)'
+vimcmd_visual_symbol = '[](bold)'
+
+# ---------------------------------------------------------------------------
+# Palettes
+# ---------------------------------------------------------------------------
+
+[palettes.catppuccin_latte]
+color_fg0 = "#eff1f5"
+color_text = "#4c4f69"
+color_bg1 = "#ccd0da"
+color_bg3 = "#bcc0cc"
+color_blue = "#1e66f5"
+color_aqua = "#179299"
+color_green = "#40a02b"
+color_orange = "#fe640b"
+color_purple = "#8839ef"
+color_red = "#d20f39"
+color_yellow = "#df8e1d"
+
+[palettes.catppuccin_frappe]
+color_fg0 = "#303446"
+color_text = "#c6d0f5"
+color_bg1 = "#414559"
+color_bg3 = "#51576d"
+color_blue = "#8caaee"
+color_aqua = "#81c8be"
+color_green = "#a6d189"
+color_orange = "#ef9f76"
+color_purple = "#ca9ee6"
+color_red = "#e78284"
+color_yellow = "#e5c890"
+
+[palettes.catppuccin_macchiato]
+color_fg0 = "#24273a"
+color_text = "#cad3f5"
+color_bg1 = "#363a4f"
+color_bg3 = "#494d64"
+color_blue = "#8aadf4"
+color_aqua = "#8bd5ca"
+color_green = "#a6da95"
+color_orange = "#f5a97f"
+color_purple = "#c6a0f6"
+color_red = "#ed8796"
+color_yellow = "#eed49f"
+
+[palettes.catppuccin_mocha]
+color_fg0 = "#1e1e2e"
+color_text = "#cdd6f4"
+color_bg1 = "#313244"
+color_bg3 = "#45475a"
+color_blue = "#89b4fa"
+color_aqua = "#94e2d5"
+color_green = "#a6e3a1"
+color_orange = "#fab387"
+color_purple = "#cba6f7"
+color_red = "#f38ba8"
+color_yellow = "#f9e2af"
+
+[palettes.everforest_light]
+color_fg0 = "#2d353b"
+color_text = "#5c6a72"
+color_bg1 = "#f4f0d9"
+color_bg3 = "#e6e2cc"
+color_blue = "#3a94c5"
+color_aqua = "#35a77c"
+color_green = "#8da101"
+color_orange = "#f57d26"
+color_purple = "#df69ba"
+color_red = "#f85552"
+color_yellow = "#dfa000"
+
+[palettes.everforest_dark]
+color_fg0 = "#2d353b"
+color_text = "#d3c6aa"
+color_bg1 = "#343f44"
+color_bg3 = "#475258"
+color_blue = "#7fbbb3"
+color_aqua = "#83c092"
+color_green = "#a7c080"
+color_orange = "#e69875"
+color_purple = "#d699b6"
+color_red = "#e67e80"
+color_yellow = "#dbbc7f"
+
+[palettes.gruvbox_light]
+color_fg0 = "#fbf1c7"
+color_text = "#3c3836"
+color_bg1 = "#ebdbb2"
+color_bg3 = "#d5c4a1"
+color_blue = "#076678"
+color_aqua = "#427b58"
+color_green = "#79740e"
+color_orange = "#af3a03"
+color_purple = "#8f3f71"
+color_red = "#9d0006"
+color_yellow = "#b57614"
+
+[palettes.gruvbox_dark]
+color_fg0 = "#fbf1c7"
+color_text = "#ebdbb2"
+color_bg1 = "#3c3836"
+color_bg3 = "#665c54"
+color_blue = "#458588"
+color_aqua = "#689d6a"
+color_green = "#98971a"
+color_orange = "#d65d0e"
+color_purple = "#b16286"
+color_red = "#cc241d"
+color_yellow = "#d79921"

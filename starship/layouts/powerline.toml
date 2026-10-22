@@ -1,0 +1,16 @@
+# layout: powerline
+format = """
+[](color_orange)\
+[$os$username](bg:color_orange fg:color_fg0)\
+[](bg:color_yellow fg:color_orange)\
+[$directory](bg:color_yellow fg:color_fg0)\
+[](fg:color_yellow bg:color_aqua)\
+[$git_branch$git_status](bg:color_aqua fg:color_fg0)\
+[](fg:color_aqua bg:color_blue)\
+[$c$cpp$rust$golang$nodejs$bun$php$java$kotlin$haskell$python](bg:color_blue fg:color_fg0)\
+[](fg:color_blue bg:color_bg3)\
+[$docker_context$conda$pixi](bg:color_bg3 fg:color_text)\
+[](fg:color_bg3 bg:color_bg1)\
+[$time](bg:color_bg1 fg:color_text)\
+[ ](fg:color_bg1)\
+$line_break[$character](fg:color_green)"""
