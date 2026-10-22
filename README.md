@@ -5,6 +5,7 @@ kept in sync with `zsh-syntax-highlighting` on macOS.
 
 Named after the Dune face dancer. Because a prompt that changes shape is still the same prompt.
 
+![img](img/layouts.png)
 ## Features
 
 - **8 palettes** behind one stable set of semantic color tokens
