@@ -13,8 +13,9 @@
 STARSHIP_CONFIG_FILE="${STARSHIP_CONFIG:-$HOME/.config/starship.toml}"
 STARSHIP_THEME_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/starship-theme"
 STARSHIP_LAYOUT_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/starship-layout"
-# 本文件位于 <repo>/zsh/，布局文件位于 <repo>/starship/layouts/
+# 本文件位于 <repo>/zsh/，布局与模板位于 <repo>/starship/
 STARSHIP_FORMAT_DIR="${0:A:h:h}/starship/layouts"
+STARSHIP_TEMPLATE_FILE="${0:A:h:h}/starship/starship.toml"
 
 # 家族 → 浅色 palette : 深色 palette（auto 模式用）
 typeset -gA _STARSHIP_THEME_FAMILIES
@@ -172,6 +173,37 @@ starship-theme() {
   print "已切换: $family $mode → $(_starship_resolve_palette)"
 }
 
+# 用仓库模板重新生成 ~/.config/starship.toml，并套用当前配色/布局
+starship-render() {
+  [[ -r "$STARSHIP_TEMPLATE_FILE" ]] || { print -u2 "starship-render: 找不到模板 $STARSHIP_TEMPLATE_FILE"; return 1 }
+  cp "$STARSHIP_TEMPLATE_FILE" "$STARSHIP_CONFIG_FILE" || return 1
+  _starship_sync_palette
+  _starship_sync_layout force
+  print "已从模板渲染: $STARSHIP_CONFIG_FILE"
+}
+
+# 比较本地实例与「模板 + 当前状态」的差异（检测本地漂移）
+starship-diff() {
+  local tmp saved
+  tmp="$(mktemp -t scytale)"
+  saved="$STARSHIP_CONFIG_FILE"
+  cp "$STARSHIP_TEMPLATE_FILE" "$tmp" || return 1
+
+  STARSHIP_CONFIG_FILE="$tmp"
+  _starship_sync_palette
+  _starship_sync_layout force
+  STARSHIP_CONFIG_FILE="$saved"
+
+  if diff -u "$tmp" "$saved"; then
+    print "无差异：本地实例与模板一致"
+    rm -f "$tmp"
+  else
+    rm -f "$tmp"
+    print "以上是「模板期望」→「本地实际」，把需要的改动搬回模板后执行 starship-render"
+    return 1
+  fi
+}
+
 starship-layout() {
   local want="$1"
 
@@ -182,6 +214,7 @@ starship-layout() {
     print "  color      只给文字上色，无背景"
     print "  plain      纯色文字，无强调色"
     print "用法: starship-layout <powerline|color|plain|reload>"
+    print "维护: starship-render（模板→本地）  starship-diff（检查本地漂移）"
     return 0
   fi
 

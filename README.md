@@ -63,7 +63,9 @@ starship-layout                     # current layout + options
 starship-layout powerline           # chips + arrows (default)
 starship-layout color               # colored text only
 starship-layout plain               # monochrome
-starship-layout reload              # re-render after editing a layout file
+starship-layout reload              # re-render the layout block after editing it
+starship-render                     # regenerate ~/.config/starship.toml from the template
+starship-diff                       # is ~/.config/starship.toml drifted from the template?
 ```
 
 ## How it works
@@ -81,6 +83,19 @@ visual chrome lives in the top-level `format` string:
 # plain
 $directory
 ```
+
+### Template vs. instance
+
+There are exactly two `starship.toml` files:
+
+| Path | Role | Modified by |
+|---|---|---|
+| `starship/starship.toml` (repo) | template / source of truth | you, by hand |
+| `~/.config/starship.toml` | runtime instance, what Starship reads | scripts, on 2 lines only |
+
+Nothing generates the template back from the instance, so local edits are one-way
+drift. Use `starship-diff` to see the difference and `starship-render` to overwrite
+the instance from the template while keeping your current palette and layout.
 
 That is why switching layouts only touches one block. Each layout is a file in
 `starship/layouts/`, delimited in `starship.toml` by a marker:

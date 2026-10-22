@@ -37,6 +37,11 @@ fi
 [ -e "$CONFIG_HOME/starship-theme" ]  || printf 'everforest auto\n' > "$CONFIG_HOME/starship-theme"
 [ -e "$CONFIG_HOME/starship-layout" ] || printf 'powerline\n'        > "$CONFIG_HOME/starship-layout"
 
+# apply the saved palette/layout to the freshly copied config
+if command -v zsh >/dev/null 2>&1; then
+  zsh -c ". '$REPO/zsh/starship-theme.zsh' >/dev/null 2>&1 || true"
+fi
+
 # 4. .zshrc block (idempotent)
 BEGIN="# >>> scytale >>>"
 END="# <<< scytale <<<"
