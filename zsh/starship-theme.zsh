@@ -1,7 +1,7 @@
 # Scytale — Starship 多主题 palette + 布局切换
 #
 #   starship-theme                      # 查看当前配色与可用主题
-#   starship-theme <family> [mode]      # family: everforest | catppuccin | gruvbox
+#   starship-theme <family> [mode]      # family: everforest | catppuccin | gruvbox | nord
 #                                       # mode:   auto(默认) | light | dark | <flavor>
 #   starship-layout                     # 查看当前布局
 #   starship-layout <powerline|color|plain|reload>
@@ -23,6 +23,8 @@ _STARSHIP_THEME_FAMILIES=(
   everforest "everforest_light:everforest_dark"
   catppuccin "catppuccin_latte:catppuccin_mocha"
   gruvbox    "gruvbox_light:gruvbox_dark"
+  # Nord 本身只有深色一套；light/dark/auto 都解析到同一个 palette
+  nord       "nord:nord"
 )
 
 _starship_palette_exists() {
@@ -144,10 +146,15 @@ starship-theme() {
     fi
     print "当前布局: $(_starship_read_layout)（starship-layout 切换）"
     print "可用主题:"
-    local f pair
+    local f pair flavors
     for f in ${(ok)_STARSHIP_THEME_FAMILIES}; do
       pair="${_STARSHIP_THEME_FAMILIES[$f]}"
-      print "  ${f}  浅=${pair%%:*}  深=${pair##*:}  ($(_starship_flavors "$f") | auto light dark)"
+      flavors="$(_starship_flavors "$f")"
+      if [[ "${pair%%:*}" == "${pair##*:}" ]]; then
+        print "  ${f}  配色=${pair%%:*}  (auto light dark)"
+      else
+        print "  ${f}  浅=${pair%%:*}  深=${pair##*:}  (${flavors:+$flavors | }auto light dark)"
+      fi
     done
     print "用法: starship-theme <family> [auto|light|dark|<flavor>]"
     return 0
