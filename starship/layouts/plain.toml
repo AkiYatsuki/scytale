@@ -1,9 +1,9 @@
 # layout: plain
 format = """
 $os$username\
-$directory\
-$git_branch$git_status\
-$c$cpp$rust$golang$nodejs$bun$php$java$kotlin$haskell$python\
-$docker_context$conda$pixi\
-$time\
+(❯$directory)\
+(❯$git_branch$git_status)\
+(❯$c$cpp$rust$golang$nodejs$bun$php$java$kotlin$haskell$python)\
+(❯$docker_context$conda$pixi)\
+(❯$time)\
 $line_break$character"""

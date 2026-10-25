@@ -1,10 +1,10 @@
 # Scytale — Starship 多主题 palette + 布局切换
 #
-#   starship-theme                      # 查看当前配色与可用主题
-#   starship-theme <family> [mode]      # family: everforest | catppuccin | gruvbox | nord | tokyonight | monokai
-#                                       # mode:   auto(默认) | light | dark | <flavor>
-#   starship-layout                     # 查看当前布局
-#   starship-layout <powerline|color|plain|reload>
+#   scytale-theme                      # 查看当前配色与可用主题
+#   scytale-theme <family> [mode]      # family: everforest | catppuccin | gruvbox | nord | tokyonight | monokai
+#                                      # mode:   auto(默认) | light | dark | <flavor>
+#   scytale-layout                     # 查看当前布局
+#   scytale-layout <powerline|color|plain|reload>
 #
 # 配色选择持久化到 ~/.config/starship-theme，布局选择到 ~/.config/starship-layout；
 # precmd 时同步到 starship.toml。zsh-syntax-highlighting 读同一个配色状态文件，
@@ -59,7 +59,7 @@ _starship_resolve_palette() {
 
   pair="${_STARSHIP_THEME_FAMILIES[$family]}"
   if [[ -z "$pair" ]]; then
-    print -u2 "starship-theme: 未知主题家族 '$family'（可用: ${(k)_STARSHIP_THEME_FAMILIES}）"
+    print -u2 "scytale-theme: 未知主题家族 '$family'（可用: ${(k)_STARSHIP_THEME_FAMILIES}）"
     return 1
   fi
   light="${pair%%:*}"
@@ -73,7 +73,7 @@ _starship_resolve_palette() {
       if _starship_palette_exists "${family}_${mode}"; then
         print -r -- "${family}_${mode}"
       else
-        print -u2 "starship-theme: '$family' 没有 '$mode'（可用: auto $(_starship_flavors "$family")）"
+        print -u2 "scytale-theme: '$family' 没有 '$mode'（可用: auto $(_starship_flavors "$family")）"
         return 1
       fi
       ;;
@@ -99,7 +99,7 @@ _starship_sync_layout() {
   [[ -z "$force" && "$current" == "$want" ]] && return 0
 
   fmt_file="$STARSHIP_FORMAT_DIR/$want.toml"
-  [[ -r "$fmt_file" ]] || { print -u2 "starship-layout: 缺少 $fmt_file"; return 0 }
+  [[ -r "$fmt_file" ]] || { print -u2 "scytale-layout: 缺少 $fmt_file"; return 0 }
 
   python3 - "$STARSHIP_CONFIG_FILE" "$fmt_file" <<'PY'
 import pathlib, re, sys
@@ -112,7 +112,7 @@ if n != 1:
     sys.exit("找不到可替换的 format 块")
 pathlib.Path(cfg).write_text(out)
 PY
-  [[ $? -eq 0 ]] || print -u2 "starship-layout: 替换 format 失败"
+  [[ $? -eq 0 ]] || print -u2 "scytale-layout: 替换 format 失败"
 }
 
 _starship_sync_palette() {
@@ -128,14 +128,14 @@ _starship_sync_palette() {
       # starship 颜色变了，顺带让 zsh-syntax-highlighting 跟着切
       (( $+functions[_zsh_highlighting_select_theme] )) && _zsh_highlighting_select_theme
     else
-      print -u2 "starship-theme: $STARSHIP_CONFIG_FILE 缺少 [palettes.$want]，跳过"
+      print -u2 "scytale-theme: $STARSHIP_CONFIG_FILE 缺少 [palettes.$want]，跳过"
     fi
   fi
 
   _starship_sync_layout
 }
 
-starship-theme() {
+scytale-theme() {
   local family="$1" mode="${2:-auto}"
 
   if [[ -z "$family" || "$family" == (list|ls|-l|--list|help|-h|--help) ]]; then
@@ -147,7 +147,7 @@ starship-theme() {
     else
       print -u2 "当前配色: ${family0} ${mode0}（无效）"
     fi
-    print "当前布局: $(_starship_read_layout)（starship-layout 切换）"
+    print "当前布局: $(_starship_read_layout)（scytale-layout 切换）"
     print "可用主题:"
     local f pair flavors
     for f in ${(ok)_STARSHIP_THEME_FAMILIES}; do
@@ -159,12 +159,12 @@ starship-theme() {
         print "  ${f}  浅=${pair%%:*}  深=${pair##*:}  (${flavors:+$flavors | }auto light dark)"
       fi
     done
-    print "用法: starship-theme <family> [auto|light|dark|<flavor>]"
+    print "用法: scytale-theme <family> [auto|light|dark|<flavor>]"
     return 0
   fi
 
   if [[ -z "${_STARSHIP_THEME_FAMILIES[$family]}" ]]; then
-    print -u2 "starship-theme: 未知主题家族 '$family'（可用: ${(k)_STARSHIP_THEME_FAMILIES}）"
+    print -u2 "scytale-theme: 未知主题家族 '$family'（可用: ${(k)_STARSHIP_THEME_FAMILIES}）"
     return 1
   fi
 
@@ -172,7 +172,7 @@ starship-theme() {
     auto|light|dark) ;;
     *)
       if ! _starship_palette_exists "${family}_${mode}"; then
-        print -u2 "starship-theme: '$family' 没有 '$mode'（可用: auto $(_starship_flavors "$family")）"
+        print -u2 "scytale-theme: '$family' 没有 '$mode'（可用: auto $(_starship_flavors "$family")）"
         return 1
       fi
       ;;
@@ -184,8 +184,8 @@ starship-theme() {
 }
 
 # 用仓库模板重新生成 ~/.config/starship.toml，并套用当前配色/布局
-starship-render() {
-  [[ -r "$STARSHIP_TEMPLATE_FILE" ]] || { print -u2 "starship-render: 找不到模板 $STARSHIP_TEMPLATE_FILE"; return 1 }
+scytale-render() {
+  [[ -r "$STARSHIP_TEMPLATE_FILE" ]] || { print -u2 "scytale-render: 找不到模板 $STARSHIP_TEMPLATE_FILE"; return 1 }
   cp "$STARSHIP_TEMPLATE_FILE" "$STARSHIP_CONFIG_FILE" || return 1
   _starship_sync_palette
   _starship_sync_layout force
@@ -193,7 +193,7 @@ starship-render() {
 }
 
 # 比较本地实例与「模板 + 当前状态」的差异（检测本地漂移）
-starship-diff() {
+scytale-diff() {
   local tmp saved
   tmp="$(mktemp -t scytale)"
   saved="$STARSHIP_CONFIG_FILE"
@@ -209,12 +209,12 @@ starship-diff() {
     rm -f "$tmp"
   else
     rm -f "$tmp"
-    print "以上是「模板期望」→「本地实际」，把需要的改动搬回模板后执行 starship-render"
+    print "以上是「模板期望」→「本地实际」，把需要的改动搬回模板后执行 scytale-render"
     return 1
   fi
 }
 
-starship-layout() {
+scytale-layout() {
   local want="$1"
 
   if [[ -z "$want" || "$want" == (list|ls|-l|--list|help|-h|--help) ]]; then
@@ -223,8 +223,8 @@ starship-layout() {
     print "  powerline  色块 + 箭头（默认）"
     print "  color      只给文字上色，无背景"
     print "  plain      纯色文字，无强调色"
-    print "用法: starship-layout <powerline|color|plain|reload>"
-    print "维护: starship-render（模板→本地）  starship-diff（检查本地漂移）"
+    print "用法: scytale-layout <powerline|color|plain|reload>"
+    print "维护: scytale-render（模板→本地）  scytale-diff（检查本地漂移）"
     return 0
   fi
 
@@ -237,7 +237,7 @@ starship-layout() {
   case "$want" in
     powerline|color|plain) ;;
     *)
-      print -u2 "starship-layout: 未知布局 '$want'（可用: powerline color plain）"
+      print -u2 "scytale-layout: 未知布局 '$want'（可用: powerline color plain）"
       return 1
       ;;
   esac

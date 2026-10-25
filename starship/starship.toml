@@ -1,11 +1,11 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# 当前配色：由 ~/.zsh/starship-palette.zsh 自动维护（macOS 深浅色 / starship-theme 手动指定）
+# 当前配色：由 ~/.zsh/starship-palette.zsh 自动维护（macOS 深浅色 / scytale-theme 手动指定）
 # 注意：palette 必须写在所有 [table] 之前，否则会被 TOML 归到上一个表里
 palette = "everforest_dark"
 
-# 当前布局：由 ~/.zsh/starship-palette.zsh 自动维护（starship-layout 切换）
+# 当前布局：由 ~/.zsh/starship-palette.zsh 自动维护（scytale-layout 切换）
 # powerline / color / plain，三份 format 存在 ~/.zsh/themes/starship-formats/
 # layout: color
 format = """

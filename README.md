@@ -6,23 +6,24 @@ kept in sync with `zsh-syntax-highlighting` on macOS.
 Named after the Dune face dancer. Because a prompt that changes shape is still the same prompt.
 
 ![img](img/layouts.png)
+
 ## Features
 
 - **14 palettes** behind one stable set of semantic color tokens
 - **3 layouts**: `powerline` (color chips + arrows), `color` (colored text, no background), `plain` (monochrome)
 - **Automatic light/dark** switching following macOS appearance
-- **One command** to switch: `starship-theme everforest light`
+- **One command** to switch: `scytale-theme everforest light`
 - **Optional sync** with `zsh-syntax-highlighting`, so prompt and shell highlighting never disagree
 - Palette and layout are independent: 14 × 3 = 42 combinations
 
-| Family | Palettes |
-|---|---|
-| Everforest | `everforest_light`, `everforest_dark` |
-| Gruvbox | `gruvbox_light`, `gruvbox_dark` |
-| Catppuccin | `catppuccin_latte`, `catppuccin_frappe`, `catppuccin_macchiato`, `catppuccin_mocha` |
-| Nord | `nord` (dark only; `light`/`dark`/`auto` all resolve to it) |
-| Tokyo Night | `tokyonight_night`, `tokyonight_storm`, `tokyonight_moon`, `tokyonight_day` |
-| Monokai | `monokai` (classic, dark only) |
+| Family      | Palettes                                                                            |
+| ----------- | ----------------------------------------------------------------------------------- |
+| Everforest  | `everforest_light`, `everforest_dark`                                               |
+| Gruvbox     | `gruvbox_light`, `gruvbox_dark`                                                     |
+| Catppuccin  | `catppuccin_latte`, `catppuccin_frappe`, `catppuccin_macchiato`, `catppuccin_mocha` |
+| Nord        | `nord` (dark only; `light`/`dark`/`auto` all resolve to it)                         |
+| Tokyo Night | `tokyonight_night`, `tokyonight_storm`, `tokyonight_moon`, `tokyonight_day`         |
+| Monokai     | `monokai` (classic, dark only)                                                      |
 
 ## Requirements
 
@@ -56,23 +57,25 @@ and `starship.toml` is treated as a generated file that the scripts rewrite in p
 
 ## Usage
 
-```sh
-starship-theme                      # current theme + available options
-starship-theme everforest auto      # follow macOS light/dark (default)
-starship-theme everforest light     # pin light
-starship-theme gruvbox dark         # pin dark
-starship-theme catppuccin frappe    # pick a specific flavor
-starship-theme nord                 # Nord（单一深色配色）
-starship-theme tokyonight storm     # Tokyo Night 的 storm 变体
-starship-theme monokai              # Monokai Classic（单一深色配色）
+Run `./theme-wizard.sh` in your `sh` or:
 
-starship-layout                     # current layout + options
-starship-layout powerline           # chips + arrows (default)
-starship-layout color               # colored text only
-starship-layout plain               # monochrome
-starship-layout reload              # re-render the layout block after editing it
-starship-render                     # regenerate ~/.config/starship.toml from the template
-starship-diff                       # is ~/.config/starship.toml drifted from the template?
+```sh
+scytale-theme                      # current theme + available options
+scytale-theme everforest auto      # follow macOS light/dark (default)
+scytale-theme everforest light     # pin light
+scytale-theme gruvbox dark         # pin dark
+scytale-theme catppuccin frappe    # pick a specific flavor
+scytale-theme nord                 # Nord（单一深色配色）
+scytale-theme tokyonight storm     # Tokyo Night 的 storm 变体
+scytale-theme monokai              # Monokai Classic（单一深色配色）
+
+scytale-layout                     # current layout + options
+scytale-layout powerline           # chips + arrows (default)
+scytale-layout color               # colored text only
+scytale-layout plain               # monochrome
+scytale-layout reload              # re-render the layout block after editing it
+scytale-render                     # regenerate ~/.config/starship.toml from the template
+scytale-diff                       # is ~/.config/starship.toml drifted from the template?
 ```
 
 ## How it works
@@ -95,13 +98,13 @@ $directory
 
 There are exactly two `starship.toml` files:
 
-| Path | Role | Modified by |
-|---|---|---|
-| `starship/starship.toml` (repo) | template / source of truth | you, by hand |
-| `~/.config/starship.toml` | runtime instance, what Starship reads | scripts, on 2 lines only |
+| Path                            | Role                                  | Modified by              |
+| ------------------------------- | ------------------------------------- | ------------------------ |
+| `starship/starship.toml` (repo) | template / source of truth            | you, by hand             |
+| `~/.config/starship.toml`       | runtime instance, what Starship reads | scripts, on 2 lines only |
 
 Nothing generates the template back from the instance, so local edits are one-way
-drift. Use `starship-diff` to see the difference and `starship-render` to overwrite
+drift. Use `scytale-diff` to see the difference and `scytale-render` to overwrite
 the instance from the template while keeping your current palette and layout.
 
 That is why switching layouts only touches one block. Each layout is a file in
@@ -112,8 +115,8 @@ That is why switching layouts only touches one block. Each layout is a file in
 format = """..."""
 ```
 
-`starship-layout` swaps that block (via Python, since TOML has no includes and
-multi-line `sed` is fragile). `starship-theme` only rewrites the single
+`scytale-layout` swaps that block (via Python, since TOML has no includes and
+multi-line `sed` is fragile). `scytale-theme` only rewrites the single
 `palette = "..."` line. State lives in `~/.config/starship-{theme,layout}`, so
 nothing generated pollutes git.
 
@@ -121,19 +124,19 @@ nothing generated pollutes git.
 
 All palettes expose the same 11 keys, which is what makes them interchangeable:
 
-| Token | Role |
-|---|---|
-| `color_fg0` | ink on accent chips (contrast against every accent) |
-| `color_text` | normal text (time, docker, conda, pixi) |
-| `color_bg1` | background of the outer `time` segment |
-| `color_bg3` | background of the `docker` / `conda` / `pixi` segment |
-| `color_{blue,aqua,green,orange,purple,red,yellow}` | accent per segment |
+| Token                                              | Role                                                  |
+| -------------------------------------------------- | ----------------------------------------------------- |
+| `color_fg0`                                        | ink on accent chips (contrast against every accent)   |
+| `color_text`                                       | normal text (time, docker, conda, pixi)               |
+| `color_bg1`                                        | background of the outer `time` segment                |
+| `color_bg3`                                        | background of the `docker` / `conda` / `pixi` segment |
+| `color_{blue,aqua,green,orange,purple,red,yellow}` | accent per segment                                    |
 
 Add your own palette by copying any `[palettes.*]` block and filling these keys.
 
 ## Customizing
 
-- Edit `starship/layouts/*.toml`, then run `starship-layout reload`.
+- Edit `starship/layouts/*.toml`, then run `scytale-layout reload`.
 - Edit `starship/starship.toml` for palettes and module definitions.
 - Add a syntax-highlighting theme as `themes/<family>-<mode>.zsh`.
 
