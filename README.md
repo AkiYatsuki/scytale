@@ -143,8 +143,11 @@ block is copied into `~/.config/starship.toml`.
 ## Credits
 
 Palette values come from [Catppuccin](https://github.com/catppuccin),
-[Everforest](https://github.com/sainnhe/everforest) and
-[Gruvbox](https://github.com/morhetz/gruvbox). Catppuccin syntax-highlighting
+[Everforest](https://github.com/sainnhe/everforest),
+[Gruvbox](https://github.com/morhetz/gruvbox), [Nord](https://www.nordtheme.com/),
+[Tokyo Night](https://github.com/folke/tokyonight.nvim) and
+[Monokai](https://monokai.pro/).
+Catppuccin syntax-highlighting
 themes belong to [catppuccin/zsh-syntax-highlighting](https://github.com/catppuccin/zsh-syntax-highlighting).
 
 ## License
