@@ -8,12 +8,12 @@ Named after the Dune face dancer. Because a prompt that changes shape is still t
 ![img](img/layouts.png)
 ## Features
 
-- **9 palettes** behind one stable set of semantic color tokens
+- **13 palettes** behind one stable set of semantic color tokens
 - **3 layouts**: `powerline` (color chips + arrows), `color` (colored text, no background), `plain` (monochrome)
 - **Automatic light/dark** switching following macOS appearance
 - **One command** to switch: `starship-theme everforest light`
 - **Optional sync** with `zsh-syntax-highlighting`, so prompt and shell highlighting never disagree
-- Palette and layout are independent: 9 × 3 = 27 combinations
+- Palette and layout are independent: 13 × 3 = 39 combinations
 
 | Family | Palettes |
 |---|---|
@@ -21,6 +21,7 @@ Named after the Dune face dancer. Because a prompt that changes shape is still t
 | Gruvbox | `gruvbox_light`, `gruvbox_dark` |
 | Catppuccin | `catppuccin_latte`, `catppuccin_frappe`, `catppuccin_macchiato`, `catppuccin_mocha` |
 | Nord | `nord` (dark only; `light`/`dark`/`auto` all resolve to it) |
+| Tokyo Night | `tokyonight_night`, `tokyonight_storm`, `tokyonight_moon`, `tokyonight_day` |
 
 ## Requirements
 
@@ -61,6 +62,7 @@ starship-theme everforest light     # pin light
 starship-theme gruvbox dark         # pin dark
 starship-theme catppuccin frappe    # pick a specific flavor
 starship-theme nord                 # Nord（单一深色配色）
+starship-theme tokyonight storm     # Tokyo Night 的 storm 变体
 
 starship-layout                     # current layout + options
 starship-layout powerline           # chips + arrows (default)
