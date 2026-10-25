@@ -1,7 +1,7 @@
 # Scytale — Starship 多主题 palette + 布局切换
 #
 #   starship-theme                      # 查看当前配色与可用主题
-#   starship-theme <family> [mode]      # family: everforest | catppuccin | gruvbox | nord | tokyonight
+#   starship-theme <family> [mode]      # family: everforest | catppuccin | gruvbox | nord | tokyonight | monokai
 #                                       # mode:   auto(默认) | light | dark | <flavor>
 #   starship-layout                     # 查看当前布局
 #   starship-layout <powerline|color|plain|reload>
@@ -26,6 +26,8 @@ _STARSHIP_THEME_FAMILIES=(
   # Nord 本身只有深色一套；light/dark/auto 都解析到同一个 palette
   nord       "nord:nord"
   tokyonight "tokyonight_day:tokyonight_night"
+  # Monokai 经典也只有深色一套
+  monokai    "monokai:monokai"
 )
 
 _starship_palette_exists() {
